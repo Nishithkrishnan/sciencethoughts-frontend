@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { Search, FlaskConical, BookOpen, UserCheck, ArrowRight, Cpu, Globe, Zap } from "lucide-react";
 import CommandPalette from "@/components/CommandPalette"; // Make sure you created this file!
 
@@ -66,10 +66,17 @@ export default function PostsClient({ posts }: any) {
   const featured = posts[0];
 
   // Animation variants for sections
-  const fadeInUp = {
+  const fadeInUp: Variants = {
     hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
-  }as const;
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      transition: { 
+        duration: 0.6, 
+        ease: "easeOut" 
+      } 
+    },
+  };
 
   return (
     <main style={styles.main}>
