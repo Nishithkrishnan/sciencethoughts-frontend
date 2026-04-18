@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { motion, Variants } from "framer-motion";
 import { Search, FlaskConical, BookOpen, UserCheck, ArrowRight, Cpu, Globe, Zap } from "lucide-react";
-import CommandPalette from "@/components/CommandPalette"; // Make sure you created this file!
+import CommandPalette from "@/components/CommandPalette";
 
 /* --- CONFIGURATION: YOUR AI AGENTS --- */
 const AI_AGENTS = [
@@ -65,7 +65,7 @@ export default function PostsClient({ posts }: any) {
 
   const featured = posts[0];
 
-  // Animation variants for sections
+  // FIXED: Explicitly typing the animation as Variants to pass Vercel's strict type check
   const fadeInUp: Variants = {
     hidden: { opacity: 0, y: 30 },
     visible: { 
