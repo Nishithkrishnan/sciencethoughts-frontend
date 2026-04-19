@@ -2,32 +2,50 @@
 
 import Link from "next/link";
 import { useEffect, useState, use } from "react";
+import ReadingProgress from "@/components/ReadingProgress"; // Make sure this file exists!
 
 export default function PostPage({ params }: any) {
+  // Unwrap params for Next.js 15+
   const resolvedParams = use(params);
   const id = resolvedParams.id;
+  
   const [post, setPost] = useState<any>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Added _embed to the URL to get the featured image
-    fetch(`https://sciencethoughts.com/wp-json/wp/v2/posts/${id}?_embed`)
-      .then((res) => res.json())
-      .then((data) => setPost(data));
+    // UPDATED: Using the blog subdomain instead of the main domain
+    fetch(`https://blog.sciencethoughts.com/wp-json/wp/v2/posts/${id}?_embed`)
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch post data");
+        return res.json();
+      })
+      .then((data) => {
+        setPost(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Post fetch error:", err);
+        setError("This insight is currently unavailable. Please try again later.");
+        setLoading(false);
+      });
   }, [id]);
 
-  if (!post) return <div style={styles.loading}>Loading Insight...</div>;
+  if (loading) return <div style={styles.loading}>Loading Insight...</div>;
+  if (error) return <div style={styles.error}>{error} <br /><Link href="/" style={styles.backLink}>Return to Lab</Link></div>;
+  if (!post) return <div style={styles.loading}>Post not found.</div>;
 
-  // Extract the featured image URL from the WordPress embed
   const featuredImage = post._embedded?.["wp:featuredmedia"]?.[0]?.source_url;
 
   return (
     <main style={styles.main}>
+      <ReadingProgress />
+      
       <nav style={styles.nav}>
         <Link href="/" style={styles.backBtn}>← Back to Lab</Link>
       </nav>
 
       <article style={styles.articleWrapper}>
-        {/* 1. HEADER SECTION */}
         <header style={styles.header}>
           <div style={styles.categoryBadge}>Think Tank / Analysis</div>
           <h1 
@@ -44,14 +62,12 @@ export default function PostPage({ params }: any) {
           </div>
         </header>
 
-        {/* 2. HERO IMAGE (The "Famous Blog" Look) */}
         {featuredImage && (
           <div style={styles.heroImageContainer}>
             <img src={featuredImage} alt="Featured" style={styles.heroImage} />
           </div>
         )}
 
-        {/* 3. CONTENT SECTION */}
         <div style={styles.contentContainer}>
           <div 
             className="wp-content" 
@@ -59,7 +75,6 @@ export default function PostPage({ params }: any) {
           />
         </div>
 
-        {/* 4. FOOTER CTA */}
         <div style={styles.footerCta}>
           <h3>Interested in the tech behind this?</h3>
           <p>I build AI agents that automate the research and logic discussed in this article.</p>
@@ -75,7 +90,7 @@ const styles: any = {
     background: "#050505",
     color: "#fff",
     minHeight: "100vh",
-    fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
+    fontFamily: "'Inter', sans-serif",
   },
   nav: {
     padding: "30px 20px",
@@ -90,7 +105,7 @@ const styles: any = {
     fontWeight: "500",
   },
   articleWrapper: {
-    maxWidth: "740px", // Medium-style width for readability
+    maxWidth: "740px",
     margin: "0 auto",
     padding: "0 20px",
   },
@@ -177,5 +192,23 @@ const styles: any = {
     alignItems: "center",
     fontSize: "18px",
     letterSpacing: "1px",
+  },
+  error: {
+    background: "#000",
+    color: "#ff4d4d",
+    height: "100vh",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    textAlign: "center",
+    fontSize: "18px",
+    padding: "20px",
+  },
+  backLink: {
+    marginTop: "20px",
+    color: "#00f2ff",
+    textDecoration: "none",
+    fontWeight: "600",
   }
 };
