@@ -5,7 +5,7 @@ export const dynamic = 'force-dynamic';
 export default async function Home() {
   try {
     // 1. Try to fetch the data
-    const res = await fetch("https://sciencethoughts.com/wp-json/wp/v2/posts?_embed", { 
+    const res = await fetch("https://blog.sciencethoughts.com/wp-json/wp/v2/posts?_embed", { 
       next: { revalidate: 60 } 
     });
 
