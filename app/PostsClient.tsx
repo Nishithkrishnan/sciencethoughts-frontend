@@ -9,31 +9,28 @@ import CommandPalette from "@/components/CommandPalette";
 /* --- CONFIGURATION: YOUR AI AGENTS --- */
 const AI_AGENTS = [
   {
-    id: "researcher-1",
-    name: "Neuro-Synthesizer",
-    description: "An agent that connects neuroscience papers to AI architecture in real-time.",
-    tech: ["GPT-4o", "LangChain", "VectorDB"],
-    link: "/lab/neuro-synthesizer",
+    id: "researcher",
+    name: "The Neuro-Researcher",
+    description: "Deep-dives into scientific papers and explains them via first principles.",
+    tech: ["Vercel AI SDK", "GPT-4o", "Next.js"],
+    link: "/lab/agent-chat?type=researcher", // <--- Note the query param
     color: "#00f2ff",
-    icon: <Cpu size={20} />,
   },
   {
-    id: "coder-1",
-    name: "LogicArchitect",
-    description: "Automates the creation of complex system design diagrams from raw text.",
-    tech: ["Claude 3.5", "Python", "Mermaid.js"],
-    link: "/lab/logic-architect",
+    id: "strategist",
+    name: "AI Business Architect",
+    description: "Designs autonomous agent workflows for business automation.",
+    tech: ["Vercel AI SDK", "GPT-4o", "Next.js"],
+    link: "/lab/agent-chat?type=strategist", // <--- Note the query param
     color: "#bc13fe",
-    icon: <Globe size={20} />,
   },
   {
-    id: "writer-1",
-    name: "Thought-Mapper",
-    description: "Transforms raw scientific notes into structured, high-conversion blog posts.",
-    tech: ["GPT-4", "Custom Prompting"],
-    link: "/lab/thought-mapper",
+    id: "simplifier",
+    name: "The Concept Simplifier",
+    description: "Translates complex quantum/AI physics into simple analogies.",
+    tech: ["Vercel AI SDK", "GPT-4o", "Next.js"],
+    link: "/lab/agent-chat?type=simplifier", // <--- Note the query param
     color: "#39ff14",
-    icon: <Zap size={20} />,
   },
 ];
 
